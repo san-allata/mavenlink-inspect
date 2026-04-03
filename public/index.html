@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kantata Sync Starter</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <h1>Kantata Project Review</h1>
+        <p>Timesheet status, spend by week, and budget guardrails.</p>
+      </header>
+
+      <section class="panel">
+        <div class="row">
+          <button id="connectBtn">Connect Kantata</button>
+          <button id="disconnectBtn" class="ghost">Disconnect</button>
+          <span id="health" class="chip">Checking connection...</span>
+        </div>
+      </section>
+
+      <section class="panel controls">
+        <div class="controls-main">
+          <label>
+            Project Name or ID
+            <div class="project-input-row">
+              <input id="project" list="projectOptions" placeholder="Type project name..." />
+              <button id="clearProjectBtn" type="button" class="ghost" aria-label="Clear project">X</button>
+            </div>
+            <datalist id="projectOptions"></datalist>
+          </label>
+
+          <label>
+            Start Date
+            <input id="start" type="date" />
+          </label>
+
+          <label>
+            End Date
+            <input id="end" type="date" />
+          </label>
+        </div>
+
+        <div class="controls-actions">
+          <button id="thisMonthBtn" type="button" class="ghost">This Month</button>
+          <button id="lastMonthBtn" type="button" class="ghost">Last Month</button>
+          <button id="runBtn">Run Review</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Invoice-Style Preview</h2>
+        <div id="invoicePreviewOut" class="table-host">
+          Run review to see invoice-style line items (resource, hours, rate, amount) for visual comparison.
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Timesheet Status Summary</h2>
+        <div id="timesheetOut" class="table-host">Run review to load timesheet summary.</div>
+      </section>
+
+      <section class="panel">
+        <h2>Budget Check</h2>
+        <div id="budgetOut" class="table-host">Run review to load budget summary.</div>
+      </section>
+
+    </main>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
