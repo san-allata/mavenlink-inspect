@@ -5,8 +5,11 @@ import { config, validateConfig } from "./config.js";
 import { getToken, saveToken, clearToken } from "./tokenStore.js";
 import { apiGet, apiGetAllPages, extractResults } from "./kantataClient.js";
 import {
+  getBillingRatesByEmployeeNames,
   getBudgetCheck,
+  getTeamMemberBillingEntries,
   getSpendReport,
+  getSpendTrend,
   getTimesheetStatusReport,
   resolveProject
 } from "./reports.js";
@@ -201,6 +204,54 @@ app.get("/api/reports/budget", requireToken, async (req, res) => {
     );
 
     res.json({ project, spend_summary: spendReport.summary, budget });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.get("/api/reports/trend", requireToken, async (req, res) => {
+  try {
+    const project = await resolveProject(req.kantataToken, req.query.project);
+    const trend = await getSpendTrend(req.kantataToken, project.id, project.title || "");
+    res.json({ project, ...trend });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.post("/api/tools/billing-rates", requireToken, async (req, res) => {
+  try {
+    const project = await resolveProject(req.kantataToken, req.body?.project || req.query.project);
+    const names = Array.isArray(req.body?.names)
+      ? req.body.names
+      : String(req.body?.names || "")
+          .split(/[\n,;]/)
+          .map((s) => s.trim())
+          .filter(Boolean);
+
+    const report = await getBillingRatesByEmployeeNames(
+      req.kantataToken,
+      project.id,
+      names,
+      req.body?.start || req.query.start,
+      req.body?.end || req.query.end
+    );
+    res.json({ project, ...report });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.get("/api/tools/team-billing", requireToken, async (req, res) => {
+  try {
+    const project = await resolveProject(req.kantataToken, req.query.project);
+    const report = await getTeamMemberBillingEntries(
+      req.kantataToken,
+      project.id,
+      req.query.start,
+      req.query.end
+    );
+    res.json({ project, ...report });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kantata Sync Starter</title>
     <link rel="stylesheet" href="/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   </head>
   <body>
     <main class="shell">
@@ -48,6 +49,71 @@
           <button id="lastMonthBtn" type="button" class="ghost">Last Month</button>
           <button id="runBtn">Run Review</button>
         </div>
+      </section>
+
+      <section class="panel">
+        <h2>Revenue Trend From Project Start</h2>
+        <canvas id="trendChart"></canvas>
+      </section>
+
+      <section class="panel">
+        <h2>Monthly Revenue Targets</h2>
+        <p class="muted">Enter three monthly revenue targets for this project. The chart shows actual revenue earned vs your targets.</p>
+        <div class="plan-grid">
+          <label>
+            Target Project
+            <input id="planProject" type="text" readonly />
+          </label>
+
+          <label>
+            Month 1
+            <input id="planMonth1" type="month" />
+          </label>
+
+          <label>
+            Target 1
+            <input id="planAmount1" type="number" min="0" step="0.01" placeholder="0.00" />
+          </label>
+
+          <label>
+            Month 2
+            <input id="planMonth2" type="month" />
+          </label>
+
+          <label>
+            Target 2
+            <input id="planAmount2" type="number" min="0" step="0.01" placeholder="0.00" />
+          </label>
+
+          <label>
+            Month 3
+            <input id="planMonth3" type="month" />
+          </label>
+
+          <label>
+            Target 3
+            <input id="planAmount3" type="number" min="0" step="0.01" placeholder="0.00" />
+          </label>
+        </div>
+        <div class="controls-actions" style="margin-top: 12px">
+          <button id="savePlanBtn" type="button">Save Targets</button>
+          <button id="clearPlanBtn" type="button" class="ghost">Clear Targets</button>
+          <span id="planStatus" class="muted"></span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Billing Rate Lookup</h2>
+        <p class="muted">Paste employee names (one per line, comma, or semicolon separated) to find their billing rates from the selected project and date range.</p>
+        <label>
+          Employee Names
+          <textarea id="rateNames" rows="4" placeholder="Jane Doe&#10;John Smith"></textarea>
+        </label>
+        <div class="controls-actions" style="margin-top: 10px">
+          <button id="lookupRatesBtn" type="button">Lookup Rates</button>
+          <span id="rateLookupStatus" class="muted"></span>
+        </div>
+        <div id="rateLookupOut" class="table-host" style="margin-top: 10px">Paste names and click Lookup Rates.</div>
       </section>
 
       <section class="panel">
